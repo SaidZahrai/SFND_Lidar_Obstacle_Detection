@@ -18,12 +18,16 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
   // -----Open 3D viewer and display City Block     -----
   // ----------------------------------------------------
 
-  pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.25 , Eigen::Vector4f (-10.0, -7.0, -3.0, 1), Eigen::Vector4f ( 30.0, 7.0, 3.0, 1));
+  // Parameter adjusted so that the pole becomes visible by reduciing the voxel filter size from 0.25 to 0.15 and 
+  // reducing the minimum number of required points in the discovered segment from 30 to 10.
+  // The wall is removed by limiting the ROI box from -5.5 to +6.5.
+  
+  pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.15 , Eigen::Vector4f (-10.0, -5.5, -3.0, 1), Eigen::Vector4f ( 30.0, +6.5, 3.0, 1));
   std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = pointProcessorI->SegmentPlane(filterCloud, 100, 0.2);
 
   renderPointCloud(viewer, segmentCloud.second, "PlaneCloud", Color(0,1,0));
 
-  std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentCloud.first, 0.3, 20, 500);
+  std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters = pointProcessorI->Clustering(segmentCloud.first, 0.3, 10, 500);
 
   int clusterId = 0;
   std::vector<Color> colors = {Color(1,0,0), Color(1,1,0), Color(0,0,1)};

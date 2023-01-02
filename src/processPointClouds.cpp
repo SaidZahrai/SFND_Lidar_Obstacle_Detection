@@ -39,32 +39,21 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
 
     typename pcl::PointCloud<PointT>::Ptr cloudRegion {new pcl::PointCloud<PointT>};
 
-    // Create and apply the boxing filter
+    // Create and apply a filter to 1) remove the points outside the region of interest and 
+    // 2) remove the points that are inside a box on the roof of the car. 
 
-    pcl::CropBox<PointT> rg(true);
-    rg.setInputCloud(cloudFiltered);
-    rg.setMin(minPoint);
-    rg.setMax(maxPoint);
-    rg.filter(*cloudRegion);
+    pcl::CropBox<PointT> roi(true);
+    roi.setInputCloud(cloudFiltered);
+    roi.setMin(minPoint);
+    roi.setMax(maxPoint);
+    roi.filter(*cloudRegion);
 
-     // Find and remove roof points
-    std::vector<int> indices;
-    pcl::CropBox<PointT> roofBox(true);
-    roofBox.setMin(Eigen::Vector4f(-1.5, -1.7, -1, 1));
-    roofBox.setMax(Eigen::Vector4f(2.6, 1.7, -0.4, 1));
-    roofBox.setInputCloud(cloudRegion);
-    roofBox.filter(indices);
-
-    pcl::PointIndices::Ptr inliers{new pcl::PointIndices};
-    for (int point: indices)
-        inliers->indices.push_back(point);
-
-    // Remove the rooftop indices
-    pcl::ExtractIndices<PointT> extract;
-    extract.setIndices(inliers);
-    extract.setNegative(true);
-    extract.setInputCloud(cloudRegion);
-    extract.filter(*cloudRegion);
+    // Remove roof points
+    roi.setMin(Eigen::Vector4f(-1.5, -1.7, -1, 1));
+    roi.setMax(Eigen::Vector4f(2.6, 1.7, -0.4, 1));
+    roi.setInputCloud(cloudRegion);
+    roi.setNegative(true);
+    roi.filter(*cloudRegion);
 
     auto endTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);

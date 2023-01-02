@@ -123,7 +123,7 @@ make
 ```
 
 ### Docker container
-If you are not using Ubuntu 20.04, a simple way to move forward would be to use a docker container. With some seraches on internet and lots of experimentation, I succeeded to have the container set up for my machine with the `Dockerfile` that you find in the repository.
+If you are not using Ubuntu 20.04, a simple way to move forward would be to use a docker container. With some searches on internet and lots of experimentation, I succeeded to have the container set up for my machine with the `Dockerfile` that you find in the repository.
 
 You should first build the container with
 ```sh

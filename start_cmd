@@ -1,0 +1,12 @@
+xhost +local:root
+
+docker run -ti --rm  \
+       -u 1000:1000 \
+       -e DISPLAY=$DISPLAY \
+       -v /tmp/.X11-unix:/tmp/.X11-unix  \
+       -v ~/git/SFND-Lidar_Obstacle_Detection:/home/developer/SFND \
+       -w /home/developer/SFND \
+       --device /dev/dri --group-add=$(stat -c "%g" /dev/dri/render*) \
+       sfnd_d /bin/bash
+       
+xhost -local:root

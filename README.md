@@ -2,7 +2,7 @@
 
 This is a fort from [Udacity's repository for the project](https://github.com/udacity/SFND_Lidar_Obstacle_Detection), where the code is compelted for presentation of a solution for the first project. For general information, please see [Udacity's repository](https://github.com/udacity/SFND_Lidar_Obstacle_Detection).
 
-<img src="media/Viewer.png" width="700" height="400" />
+<img src="media/Viewer.gif" width="700" height="400" />
 
 
 ## Project assignment

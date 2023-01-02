@@ -46,7 +46,7 @@ docker run -ti --rm  \
        
 xhost -local:root
 ```
-Once you are on the container you continue with the following commands
+Note that I clone the repository in `~/git/.` and then in the above command, I map that to `/home/developer/SFND/` which will also be the entry point. In that case, once you are on the container you can continue with the following commands
 ```
 mkdir build && cd build
 cmake ..

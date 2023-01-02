@@ -6,7 +6,6 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY ./keyboard /etc/default/keyboard
 
 ENV DEBIAN_FRONTEND noninteractive
-# ENV LIBGL_ALWAYS_INDIRECT=1
 
 RUN apt-get update
 RUN apt-get install -y firefox build-essential cmake git libpcl-dev
